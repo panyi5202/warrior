@@ -59,14 +59,14 @@ public final class ClassUtil {
     public static Set<Class<?>> getClassSet(String packageName) {
         Set<Class<?>> classSet = new HashSet<>();
         try {
-            Enumeration<URL> urls = getClassLoader().getResources(packageName.replace(".", "/"));
+            Enumeration<URL> urls = getClassLoader().getResources(packageName.replace(Constant.PACKAGE_PATH_SEPARATOR, Constant.FILE_PATH_SEPARATOR));
             while (urls.hasMoreElements()) {
                 URL url = urls.nextElement();
                 if (url != null) {
                     String protocol = url.getProtocol();
                     if (StringUtils.isNotBlank(protocol)) {
                         if (protocol.endsWith("file")) {
-                            String packagePath = url.getPath().replaceAll("%20", "");
+                            String packagePath = url.getPath().replaceAll("%20", " ");
                             addClass(classSet, packagePath, packageName);
                         } else if (protocol.endsWith("jar")) {
                             JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
@@ -77,8 +77,9 @@ public final class ClassUtil {
                                     while (entries.hasMoreElements()) {
                                         JarEntry jarEntry = entries.nextElement();
                                         String jarEntryName = jarEntry.getName();
-                                        if (jarEntryName.endsWith(".class")) {
-                                            String className = jarEntryName.substring(0, jarEntryName.lastIndexOf(".")).replaceAll("/", ".");
+                                        if (jarEntryName.endsWith(Constant.SUF_CLASS)) {
+                                            String className = jarEntryName.substring(0, jarEntryName.lastIndexOf
+                                                    (Constant.PACKAGE_PATH_SEPARATOR)).replaceAll(Constant.FILE_PATH_SEPARATOR, Constant.PACKAGE_PATH_SEPARATOR);
                                             doAddClass(classSet, className);
                                         }
                                     }

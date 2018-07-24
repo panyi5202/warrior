@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author panyi on 18-7-18.
  */
-public class IocHelper {
+public final class IocHelper {
     static {
         // 获取所有Bean类和Bean实例的映射
         Map<Class<?>, Object> beanMap = BeanHelper.getBeanMap();

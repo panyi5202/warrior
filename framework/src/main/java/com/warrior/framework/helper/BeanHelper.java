@@ -2,7 +2,6 @@ package com.warrior.framework.helper;
 
 import com.warrior.framework.util.ReflectionUtil;
 
-import javax.imageio.plugins.bmp.BMPImageWriteParam;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +11,7 @@ import java.util.Set;
  *
  * @author panyi on 18-7-18.
  */
-public class BeanHelper {
+public final class BeanHelper {
     private static final Map<Class<?>, Object> BEAN_MAP = new HashMap<>();
 
     static {
@@ -40,6 +39,16 @@ public class BeanHelper {
             throw new RuntimeException("找不到类的实例bean->" + cls);
         }
         return (T) BEAN_MAP.get(cls);
+    }
+
+    /**
+     * 添加Bean class和实例的映射
+     *
+     * @param cls Bean类
+     * @param obj Bean实例
+     */
+    public static void setBean(Class<?> cls, Object obj) {
+        BEAN_MAP.put(cls, obj);
     }
 
 }

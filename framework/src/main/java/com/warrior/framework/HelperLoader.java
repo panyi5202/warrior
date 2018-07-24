@@ -1,9 +1,6 @@
 package com.warrior.framework;
 
-import com.warrior.framework.helper.BeanHelper;
-import com.warrior.framework.helper.ClassHelper;
-import com.warrior.framework.helper.ControllerHelper;
-import com.warrior.framework.helper.IocHelper;
+import com.warrior.framework.helper.*;
 import com.warrior.framework.util.ClassUtil;
 
 /**
@@ -13,7 +10,12 @@ import com.warrior.framework.util.ClassUtil;
  */
 public final class HelperLoader {
     public static void init() {
-        Class<?>[] classArr = {ClassHelper.class, BeanHelper.class, IocHelper.class, ControllerHelper.class};
+        Class<?>[] classArr = {
+                ClassHelper.class,
+                BeanHelper.class,
+                AopHelper.class,
+                IocHelper.class,
+                ControllerHelper.class};
         for (Class<?> cls : classArr) {
             ClassUtil.loadClass(cls.getName(), true);
         }

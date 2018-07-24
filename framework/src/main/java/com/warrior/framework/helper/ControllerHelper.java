@@ -4,6 +4,7 @@ import com.warrior.framework.annotation.Action;
 import com.warrior.framework.bean.Handler;
 import com.warrior.framework.bean.Request;
 import com.warrior.framework.util.ArrayUtil;
+import com.warrior.framework.util.Constant;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.lang.reflect.Method;
@@ -35,14 +36,13 @@ public final class ControllerHelper {
                         if (controllerMethod.isAnnotationPresent(Action.class)) {
                             Action actionAnnotation = controllerMethod.getAnnotation(Action.class);
                             String mapping = actionAnnotation.value();
-                            if (mapping.indexOf(":/") != -1) {
-                                String[] reqArr = mapping.split(":");
+                            if (mapping.contains(Constant.REQ_PATH_REG)) {
+                                String[] reqArr = mapping.split(Constant.REQ_PATH_SEPARATOR);
                                 if (ArrayUtil.isNotEmpty(reqArr) && reqArr.length == 2) {
                                     String requestMethod = reqArr[0];
                                     String requestPath = reqArr[1];
                                     Request request = new Request(requestMethod, requestPath);
                                     Handler handler = new Handler(controllerClass, controllerMethod);
-                                    System.out.println("requestMethod:" + requestMethod + "|requestPath:" + requestPath);
                                     ACTION_MAP.put(request, handler);
                                 }
                             }
